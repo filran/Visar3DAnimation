@@ -13,6 +13,8 @@ using System.Collections;
 public class Visar3D : MonoBehaviour {
 
     public GameObject LifelineGO;
+    public Material Red;
+    public Material Blue;
     public Slider slider;
 
     private SequenceDiagram sequence;
@@ -36,6 +38,8 @@ public class Visar3D : MonoBehaviour {
     {
         sequence = this.gameObject.AddComponent<SequenceDiagram>();
         sequence.LifelineGO = LifelineGO;
+        sequence.Red = Red;
+        sequence.Blue = Blue;
         sequence.renderSequenceDiagram();
     }
 

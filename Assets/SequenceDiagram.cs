@@ -5,6 +5,9 @@ using System.Collections.Generic;
 public class SequenceDiagram : MonoBehaviour {
 
     public GameObject LifelineGO;
+    public Material Red { get; set; }
+    public Material Blue { get; set; }
+
     public List<Lifeline> ListLifeline = new List<Lifeline>();
     public Dictionary<Lifeline, GameObject> Lifelines = new Dictionary<Lifeline, GameObject>();
     public Dictionary<Method, GameObject> Methods = new Dictionary<Method, GameObject>();
@@ -64,8 +67,9 @@ public class SequenceDiagram : MonoBehaviour {
                 
                 LineRenderer line = mGO.AddComponent<LineRenderer>();
                 line.gameObject.SetActive(false);
-                line.SetWidth(.25f, .25f);
+                line.SetWidth(.15f, .15f);
                 line.SetPosition(0, new Vector3(l.Value.transform.position.x, m.PtStartY, l.Value.transform.position.z));
+                line.SetPosition(1, new Vector3(l.Value.transform.position.x, m.PtStartY, l.Value.transform.position.z));
 
                 //Encontra a Lifeline de destino
                 foreach (KeyValuePair<Lifeline, GameObject> ll in Lifelines)
@@ -99,20 +103,31 @@ public class SequenceDiagram : MonoBehaviour {
         {
             GameObject lGO = (GameObject)Instantiate(LifelineGO, new Vector3(count, 0, 0), Quaternion.identity);
             lGO.name = l.Name;
+
+            //Animate Lifenlie
+            AnimateLifeline animateLifeline = lGO.AddComponent<AnimateLifeline>();
+            animateLifeline.Red = Red;
+            animateLifeline.Blue = Blue;
+
             Lifelines.Add(l, lGO);            
             count += 2;
         }
 
         renderMethods();
     }
+    
     public void AnimarMetodo(float value , string direction)
     {
         foreach (KeyValuePair<Method, GameObject> m in Methods)
         {
             if (m.Key.Seqno.Equals((int)value))
             {
+                //Animar Método
                 m.Value.SetActive(true);
                 m.Value.GetComponent<AnimateMethod>().Animar(direction);
+
+                //Animar Lifeline
+
             }
         }
     }

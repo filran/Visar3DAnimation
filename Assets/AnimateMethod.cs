@@ -8,7 +8,7 @@ public class AnimateMethod : MonoBehaviour {
     private LineRenderer Line;
     private float Dist = 0;
     private float Counter = 0;
-    private float LineDrawSpeed = 4f;
+    private float LineDrawSpeed = 2f;
 
     public Vector3 Origin;
     public Vector3 Destination;
@@ -18,7 +18,7 @@ public class AnimateMethod : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        CriarLinerenderer();
+        Line = this.GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
@@ -28,14 +28,6 @@ public class AnimateMethod : MonoBehaviour {
     }
 
     #region PRIVATE METHODS
-    void CriarLinerenderer()
-    {
-        Line = this.GetComponent<LineRenderer>();
-        Line.SetPosition(0, Origin);
-        Line.SetWidth(.2f, .2f);
-
-        Line.SetPosition(1,Destination);
-    }
 
     void ExecutarAnimacao()
     {
