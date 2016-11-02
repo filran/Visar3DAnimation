@@ -1,8 +1,8 @@
 ﻿// TODO
 // # OK     Renderizar as lifelines
-// # OK     renderizar as mensagens
-// # criar os botoes de interface com os botoes
-// # quando clicar nos botoes, animar as mensagens 
+// # OK     Renderizar as mensagens
+// # OK     Animar as mensagens de acordo com o Slider
+// # Mostrar e ocultar Lifelines de acordo com a exibição das mensagens
 
 
 
