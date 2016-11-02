@@ -2,7 +2,8 @@
 // # OK     Renderizar as lifelines
 // # OK     Renderizar as mensagens
 // # OK     Animar as mensagens de acordo com o Slider
-// # Mostrar e ocultar Lifelines de acordo com a exibição das mensagens
+// # OK     Mostrar e ocultar Lifelines de acordo com a exibição das mensagens
+// # Botão Animação Automática;
 
 
 
@@ -14,17 +15,20 @@ public class Visar3D : MonoBehaviour {
 
     public GameObject LifelineGO;
     public Slider slider;
+    public Button BtPlay;
 
     private SequenceDiagram sequence;
     private float CurrentValueSlider = 0;
+    private bool btplay = true;
 
 	// Use this for initialization
 	void Start () {
         AddSequenceDiagram();
 
         AddAcaoAoSlider();
-
         SetarValorMaximoDoSlider();
+
+        AddAcaoAoBtPlay();
 	}
 	
 	// Update is called once per frame
@@ -38,6 +42,8 @@ public class Visar3D : MonoBehaviour {
         sequence.LifelineGO = LifelineGO;
         sequence.renderSequenceDiagram();
     }
+
+    #region Acoes para o Slider
 
     void AddAcaoAoSlider()
     {
@@ -83,4 +89,39 @@ public class Visar3D : MonoBehaviour {
 
         return r;
     }
+
+    #endregion
+
+    #region Acoes para o Botão Play
+
+    void AddAcaoAoBtPlay()
+    {
+        BtPlay.onClick.AddListener(delegate {
+
+            if(btplay)
+            {
+                BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Pause";
+                InvokeRepeating("MudarSliderValue", 0f, 1f);
+            }
+            else
+            {
+                BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Play";
+                CancelInvoke();
+            }
+
+            btplay = !btplay;            
+        });
+    }
+
+    void MudarSliderValue()
+    {
+        if (slider.value.Equals(sequence.Methods.Count))
+        {
+            CancelInvoke();
+        }
+
+        slider.value++;
+    }
+
+    #endregion
 }
