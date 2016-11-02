@@ -21,6 +21,13 @@ public class AnimateMethod : MonoBehaviour {
         CriarLinerenderer();
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        ExecutarAnimacao();
+    }
+
+    #region PRIVATE METHODS
     void CriarLinerenderer()
     {
         Line = this.GetComponent<LineRenderer>();
@@ -28,12 +35,6 @@ public class AnimateMethod : MonoBehaviour {
         Line.SetWidth(.2f, .2f);
 
         Line.SetPosition(1,Destination);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        ExecutarAnimacao();
     }
 
     void ExecutarAnimacao()
@@ -65,7 +66,9 @@ public class AnimateMethod : MonoBehaviour {
             Line.SetPosition(1, pointAlonfLine);
         }
     }
+    #endregion
 
+    #region PUBLIC METHODS
     public void Animar(string direction)
     {
         if (direction.Equals("left"))
@@ -80,4 +83,11 @@ public class AnimateMethod : MonoBehaviour {
             this.Direction = direction;
         }
     }
+    #endregion
+
+
+
+
+
+    
 }

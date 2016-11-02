@@ -46,13 +46,11 @@ public class Visar3D : MonoBehaviour {
             if (DescobrirDirecaoDoSlider(slider.value).Equals("left"))
             {
                 sequence.AnimarMetodo(CurrentValueSlider , "left");
-                print("Aplicar efeito em: " + CurrentValueSlider);
             }
 
             if (DescobrirDirecaoDoSlider(slider.value).Equals("right"))
             {
                 sequence.AnimarMetodo(slider.value, "right");
-                print("Aplicar efeito em: " + slider.value);
             }
 
             CurrentValueSlider = slider.value;

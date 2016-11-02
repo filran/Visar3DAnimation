@@ -18,6 +18,8 @@ public class SequenceDiagram : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    #region PRIVATE METHODS
     void ConstruirObjetosEmCena()
     {
         Lifeline l1 = new Lifeline("01","Lifeline Um");
@@ -52,24 +54,6 @@ public class SequenceDiagram : MonoBehaviour {
         ListLifeline.Add(l4);
     }
 
-    public void renderSequenceDiagram()
-    {
-        ConstruirObjetosEmCena();
-
-        int count = 0;
-
-        //Instanciar Lifelines
-        foreach(Lifeline l in ListLifeline)
-        {
-            GameObject lGO = (GameObject)Instantiate(LifelineGO, new Vector3(count, 0, 0), Quaternion.identity);
-            lGO.name = l.Name;
-            Lifelines.Add(l, lGO);            
-            count += 2;
-        }
-
-        renderMethods();
-    }
-
     void renderMethods()
     {
         foreach (KeyValuePair<Lifeline, GameObject> l in Lifelines)
@@ -101,7 +85,26 @@ public class SequenceDiagram : MonoBehaviour {
             }
         }
     }
+    #endregion
 
+    #region PUBLIC METHODS
+    public void renderSequenceDiagram()
+    {
+        ConstruirObjetosEmCena();
+
+        int count = 0;
+
+        //Instanciar Lifelines
+        foreach(Lifeline l in ListLifeline)
+        {
+            GameObject lGO = (GameObject)Instantiate(LifelineGO, new Vector3(count, 0, 0), Quaternion.identity);
+            lGO.name = l.Name;
+            Lifelines.Add(l, lGO);            
+            count += 2;
+        }
+
+        renderMethods();
+    }
     public void AnimarMetodo(float value , string direction)
     {
         foreach (KeyValuePair<Method, GameObject> m in Methods)
@@ -113,4 +116,5 @@ public class SequenceDiagram : MonoBehaviour {
             }
         }
     }
+    #endregion
 }
