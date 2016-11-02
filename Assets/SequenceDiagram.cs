@@ -5,8 +5,6 @@ using System.Collections.Generic;
 public class SequenceDiagram : MonoBehaviour {
 
     public GameObject LifelineGO;
-    public Material Red { get; set; }
-    public Material Blue { get; set; }
 
     public List<Lifeline> ListLifeline = new List<Lifeline>();
     public Dictionary<Lifeline, GameObject> Lifelines = new Dictionary<Lifeline, GameObject>();
@@ -104,10 +102,12 @@ public class SequenceDiagram : MonoBehaviour {
             GameObject lGO = (GameObject)Instantiate(LifelineGO, new Vector3(count, 0, 0), Quaternion.identity);
             lGO.name = l.Name;
 
+            //Aplha Material 0
+            Material lGOcolor = lGO.transform.FindChild("Cube").GetComponent<Renderer>().material;
+            lGOcolor.color = new Color(lGOcolor.color.r, lGOcolor.color.g, lGOcolor.color.b, 0);
+
             //Animate Lifenlie
             AnimateLifeline animateLifeline = lGO.AddComponent<AnimateLifeline>();
-            animateLifeline.Red = Red;
-            animateLifeline.Blue = Blue;
 
             Lifelines.Add(l, lGO);            
             count += 2;
@@ -118,18 +118,39 @@ public class SequenceDiagram : MonoBehaviour {
     
     public void AnimarMetodo(float value , string direction)
     {
-        foreach (KeyValuePair<Method, GameObject> m in Methods)
+        foreach(KeyValuePair<Lifeline , GameObject> l in Lifelines)
         {
-            if (m.Key.Seqno.Equals((int)value))
+            foreach(Method m in l.Key.Methods)
             {
-                //Animar Método
-                m.Value.SetActive(true);
-                m.Value.GetComponent<AnimateMethod>().Animar(direction);
+                GameObject mGO = Methods[m];
 
-                //Animar Lifeline
+                if (m.Seqno.Equals((int)value))
+                {
+                    //Animar Método
+                    mGO.SetActive(true);
+                    mGO.GetComponent<AnimateMethod>().Animar(direction);
 
+                    //Animar Lifeline
+                    l.Value.GetComponent<AnimateLifeline>().Animar(direction);
+                }
             }
         }
+
+
+
+        //foreach (KeyValuePair<Method, GameObject> m in Methods)
+        //{
+        //    if (m.Key.Seqno.Equals((int)value))
+        //    {
+        //        //Animar Método
+        //        m.Value.SetActive(true);
+        //        m.Value.GetComponent<AnimateMethod>().Animar(direction);
+
+        //        //Animar Lifeline
+        //        //Achar a Lifeline que possui esse método
+        //        //Ativar a animação da Lifeline de acordo com a direção do Slider
+        //    }
+        //}
     }
     #endregion
 }

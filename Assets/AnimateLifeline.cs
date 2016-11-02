@@ -3,41 +3,81 @@ using System.Collections;
 
 public class AnimateLifeline : MonoBehaviour {
 
-    public Material Red { get; set; }
-    public Material Blue { get; set; }
+    private float Lerp = 0;
+    private Color AlpaOne;
+    private Color AlpZero;
+    private bool Animate = false;
+    private string Direction;
 
-    public int duration = 5;
-    public Renderer rend;
+    public float Speed = 2f;
+    public Renderer Rend;
+    
+
 
 	// Use this for initialization
 	void Start () {
-        rend = this.transform.FindChild("Cube").GetComponent<Renderer>();
+        Rend = this.transform.FindChild("Cube").GetComponent<Renderer>();
+        AlpaOne = new Color(Rend.material.color.r, Rend.material.color.g, Rend.material.color.b, 1);
+        AlpZero = new Color(Rend.material.color.r, Rend.material.color.g, Rend.material.color.b, 0);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        //float lerp = Mathf.PingPong(Time.time, duration) / duration;
-        //rend.material.Lerp(Blue, Red, lerp);
-
-        if ((int)Time.time > 1)
-        {
-            float lerp = duration / (int)Time.time;
-
-            while (lerp > 1)
-            {
-                rend.material.Lerp(Blue, Red, lerp);
-            }
-        }
+        ExectuarAnimacao();
     }
 
     #region PRIVATE METHODS
 
+    void ExectuarAnimacao()
+    {
+        if (Animate)
+        {
+            Lerp += Speed * Time.deltaTime;
+
+            if (Direction.Equals("right"))
+            {
+                Rend.material.color = Color.Lerp(AlpZero, AlpaOne, Lerp);
+
+                if (Rend.material.color.a.Equals(1))
+                {
+                    this.Animate = false;
+                }
+            }
+
+            if (Direction.Equals("left"))
+            {
+                Rend.material.color = Color.Lerp(AlpaOne, AlpZero, Lerp);
+
+                if (Rend.material.color.a.Equals(0))
+                {
+                    this.Animate = false;
+                }
+            }
+        }
+        else
+        {
+            Lerp = 0;
+        }
+    }
 
 
     #endregion
 
     #region PUBLIC METHODS
+    public void Animar(string direction)
+    {
+        if (direction.Equals("left"))
+        {
+            this.Animate = true;
+            this.Direction = direction;
+        }
 
+        if (direction.Equals("right"))
+        {
+            this.Animate = true;
+            this.Direction = direction;
+        }
+    }
 
 
     #endregion
