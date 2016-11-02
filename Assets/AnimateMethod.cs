@@ -8,7 +8,7 @@ public class AnimateMethod : MonoBehaviour {
     private LineRenderer Line;
     private float Dist = 0;
     private float Counter = 0;
-    private float LineDrawSpeed = 6f;
+    private float LineDrawSpeed = 4f;
 
     public Vector3 Origin;
     public Vector3 Destination;
@@ -42,30 +42,27 @@ public class AnimateMethod : MonoBehaviour {
         {
             Dist = Vector3.Distance(Origin, Destination);
 
-            if(Direction.Equals("right"))
+            # region Direita e Esquerda
+            if (Direction.Equals("right"))
             {
                 if (Counter < Dist)
                 {
                     Counter += .1f / LineDrawSpeed;
-                    float x = Mathf.Lerp(0, Dist, Counter);
-                    Vector3 pointAlonfLine = x * Vector3.Normalize(Destination - Origin) + Origin;
-                    Line.SetPosition(1, pointAlonfLine);
                 }
             }
 
             if (Direction.Equals("left"))
             {
-                //if (Counter > 0)
-                //{
-                //    Counter -= .1f / LineDrawSpeed;
-                //    float x = Mathf.Lerp(0, Dist, Counter);
-                //    Vector3 pointAlonfLine = x * Vector3.Normalize(Destination);
-                //    Line.SetPosition(1, pointAlonfLine);
-                //}
-
-                //this.Animate = false;
-                //this.gameObject.SetActive(false);
+                if (Counter > 0)
+                {
+                    Counter -= .1f / LineDrawSpeed;
+                }
             }
+            #endregion
+
+            float x = Mathf.Lerp(0, Dist, Counter);
+            Vector3 pointAlonfLine = x * Vector3.Normalize(Destination - Origin) + Origin;
+            Line.SetPosition(1, pointAlonfLine);
         }
     }
 
