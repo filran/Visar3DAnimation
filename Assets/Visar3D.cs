@@ -16,6 +16,7 @@ public class Visar3D : MonoBehaviour {
     public Slider slider;
 
     private SequenceDiagram sequence;
+    private float CurrentValueSlider = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -42,12 +43,41 @@ public class Visar3D : MonoBehaviour {
     {
         slider.onValueChanged.AddListener(delegate
         {
-            sequence.AnimarMetodo(slider.value);
+            if (DescobrirDirecaoDoSlider(slider.value).Equals("left"))
+            {
+                sequence.AnimarMetodo(CurrentValueSlider , "left");
+                print("Aplicar efeito em: " + CurrentValueSlider);
+            }
+
+            if (DescobrirDirecaoDoSlider(slider.value).Equals("right"))
+            {
+                sequence.AnimarMetodo(slider.value, "right");
+                print("Aplicar efeito em: " + slider.value);
+            }
+
+            CurrentValueSlider = slider.value;
         });
     }
 
     void SetarValorMaximoDoSlider()
     {
         slider.maxValue = sequence.Methods.Count;
+    }
+
+    string DescobrirDirecaoDoSlider(float value)
+    {
+        string r = "";
+
+        if (value > CurrentValueSlider)
+        {
+            r = "right";
+        }
+
+        if (value < CurrentValueSlider)
+        {
+            r = "left";
+        }
+
+        return r;
     }
 }

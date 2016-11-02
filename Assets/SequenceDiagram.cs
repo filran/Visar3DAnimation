@@ -91,9 +91,9 @@ public class SequenceDiagram : MonoBehaviour {
                         //line.SetPosition(1, new Vector3(ll.Value.transform.position.x, m.PtStartY, ll.Value.transform.position.z));
 
                         //Adiciona a classe responsável por animar a mensagem
-                        AnimateMethod animateMethod = line.gameObject.AddComponent<AnimateMethod>(); 
-                        animateMethod.Origin = l.Value.transform.position;
-                        animateMethod.Destination = ll.Value.transform.position;
+                        AnimateMethod animateMethod = line.gameObject.AddComponent<AnimateMethod>();
+                        animateMethod.Origin = new Vector3(l.Value.transform.position.x, m.PtStartY, l.Value.transform.position.z);
+                        animateMethod.Destination = new Vector3(ll.Value.transform.position.x, m.PtStartY, ll.Value.transform.position.z);
                     }
                 }
 
@@ -102,14 +102,14 @@ public class SequenceDiagram : MonoBehaviour {
         }
     }
 
-    public void AnimarMetodo(float value)
+    public void AnimarMetodo(float value , string direction)
     {
         foreach (KeyValuePair<Method, GameObject> m in Methods)
         {
-            if(m.Key.Seqno.Equals((int)value))
+            if (m.Key.Seqno.Equals((int)value))
             {
                 m.Value.SetActive(true);
-                m.Value.GetComponent<AnimateMethod>().Animate = true;   
+                m.Value.GetComponent<AnimateMethod>().Animar(direction);
             }
         }
     }
