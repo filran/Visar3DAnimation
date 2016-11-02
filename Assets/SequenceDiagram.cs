@@ -5,10 +5,11 @@ using System.Collections.Generic;
 public class SequenceDiagram : MonoBehaviour {
 
     public GameObject LifelineGO;
-
     public List<Lifeline> ListLifeline = new List<Lifeline>();
     public Dictionary<Lifeline, GameObject> Lifelines = new Dictionary<Lifeline, GameObject>();
     public Dictionary<Method, GameObject> Methods = new Dictionary<Method, GameObject>();
+
+    private GameObject PrimeiraLifeline;
 
 	// Use this for initialization
 	void Start () {
@@ -87,6 +88,15 @@ public class SequenceDiagram : MonoBehaviour {
             }
         }
     }
+
+    void AcharPrimeiraLifeline(int seqno, GameObject lifeline)
+    {
+        if (seqno.Equals(1))
+        {
+            this.PrimeiraLifeline = lifeline;
+        }
+    }
+
     #endregion
 
     #region PUBLIC METHODS
@@ -126,31 +136,26 @@ public class SequenceDiagram : MonoBehaviour {
 
                 if (m.Seqno.Equals((int)value))
                 {
-                    //Animar Método
-                    mGO.SetActive(true);
-                    mGO.GetComponent<AnimateMethod>().Animar(direction);
+                    AcharPrimeiraLifeline(m.Seqno, l.Value);
 
-                    //Animar Lifeline
-                    l.Value.GetComponent<AnimateLifeline>().Animar(direction);
+                    foreach (KeyValuePair<Lifeline, GameObject> ll in Lifelines)
+                    {
+                        if(m.IdTarget.Equals(ll.Key.Id))
+                        {
+                            //Animar Método
+                            mGO.SetActive(true);
+                            mGO.GetComponent<AnimateMethod>().Animar(direction, l.Value, ll.Value);
+                        }
+                    }
                 }
             }
         }
-
-
-
-        //foreach (KeyValuePair<Method, GameObject> m in Methods)
-        //{
-        //    if (m.Key.Seqno.Equals((int)value))
-        //    {
-        //        //Animar Método
-        //        m.Value.SetActive(true);
-        //        m.Value.GetComponent<AnimateMethod>().Animar(direction);
-
-        //        //Animar Lifeline
-        //        //Achar a Lifeline que possui esse método
-        //        //Ativar a animação da Lifeline de acordo com a direção do Slider
-        //    }
-        //}
     }
+
+    public void AplicarAplhaZeroAPrimeiraLifeline()
+    {
+        this.PrimeiraLifeline.GetComponent<AnimateLifeline>().Animar("left");
+    }
+
     #endregion
 }

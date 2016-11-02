@@ -9,6 +9,8 @@ public class AnimateMethod : MonoBehaviour {
     private float Dist = 0;
     private float Counter = 0;
     private float LineDrawSpeed = 2f;
+    private GameObject LifelineOrigin;
+    private GameObject LifelineDestination;
 
     public Vector3 Origin;
     public Vector3 Destination;
@@ -41,6 +43,9 @@ public class AnimateMethod : MonoBehaviour {
                 if (Counter < Dist)
                 {
                     Counter += .1f / LineDrawSpeed;
+                    
+                    LifelineOrigin.GetComponent<AnimateLifeline>().Animar(this.Direction);
+                    LifelineDestination.GetComponent<AnimateLifeline>().Animar(this.Direction);
                 }
             }
 
@@ -49,31 +54,29 @@ public class AnimateMethod : MonoBehaviour {
                 if (Counter > 0)
                 {
                     Counter -= .1f / LineDrawSpeed;
+
+                    LifelineDestination.GetComponent<AnimateLifeline>().Animar(this.Direction);
                 }
             }
             #endregion
 
+            //Animation Method
             float x = Mathf.Lerp(0, Dist, Counter);
             Vector3 pointAlonfLine = x * Vector3.Normalize(Destination - Origin) + Origin;
             Line.SetPosition(1, pointAlonfLine);
+
+           
         }
     }
     #endregion
 
     #region PUBLIC METHODS
-    public void Animar(string direction)
+    public void Animar(string direction, GameObject lifelineOrigin, GameObject lifelineDestination)
     {
-        if (direction.Equals("left"))
-        {
-            this.Animate = true;
-            this.Direction = direction;
-        }
-
-        if (direction.Equals("right"))
-        {
-            this.Animate = true;
-            this.Direction = direction;
-        }
+        this.Animate = true;
+        this.Direction = direction;
+        this.LifelineOrigin = lifelineOrigin;
+        this.LifelineDestination = lifelineDestination;
     }
     #endregion
 

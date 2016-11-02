@@ -53,6 +53,11 @@ public class Visar3D : MonoBehaviour {
                 sequence.AnimarMetodo(slider.value, "right");
             }
 
+            if(slider.value.Equals(0))
+            {
+                sequence.AplicarAplhaZeroAPrimeiraLifeline();
+            }
+
             CurrentValueSlider = slider.value;
         });
     }

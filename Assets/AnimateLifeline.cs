@@ -8,6 +8,7 @@ public class AnimateLifeline : MonoBehaviour {
     private Color AlpZero;
     private bool Animate = false;
     private string Direction;
+    private GameObject LifelineDestination;
 
     public float Speed = 2f;
     public Renderer Rend;
@@ -36,7 +37,7 @@ public class AnimateLifeline : MonoBehaviour {
 
             if (Direction.Equals("right"))
             {
-                Rend.material.color = Color.Lerp(AlpZero, AlpaOne, Lerp);
+                Rend.material.color = Color.Lerp(new Color(Rend.material.color.r, Rend.material.color.g, Rend.material.color.b, Rend.material.color.a), AlpaOne, Lerp);            
 
                 if (Rend.material.color.a.Equals(1))
                 {
@@ -64,21 +65,12 @@ public class AnimateLifeline : MonoBehaviour {
     #endregion
 
     #region PUBLIC METHODS
+
     public void Animar(string direction)
     {
-        if (direction.Equals("left"))
-        {
-            this.Animate = true;
-            this.Direction = direction;
-        }
-
-        if (direction.Equals("right"))
-        {
-            this.Animate = true;
-            this.Direction = direction;
-        }
+        this.Animate = true;
+        this.Direction = direction;
     }
-
 
     #endregion
 }
