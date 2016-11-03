@@ -3,7 +3,8 @@
 // # OK     Renderizar as mensagens
 // # OK     Animar as mensagens de acordo com o Slider
 // # OK     Mostrar e ocultar Lifelines de acordo com a exibição das mensagens
-// # Botão Animação Automática;
+// # OK     Botão Animação Automática;
+// # Colocar os botões Avançar e Voltar
 
 
 
@@ -16,6 +17,8 @@ public class Visar3D : MonoBehaviour {
     public GameObject LifelineGO;
     public Slider slider;
     public Button BtPlay;
+    public Button BtNext;
+    public Button BtPrevious;
 
     private SequenceDiagram sequence;
     private float CurrentValueSlider = 0;
@@ -29,6 +32,9 @@ public class Visar3D : MonoBehaviour {
         SetarValorMaximoDoSlider();
 
         AddAcaoAoBtPlay();
+
+        AddAcaoAoBtNext();
+        AddAcaoAoBtPrevious();
 	}
 	
 	// Update is called once per frame
@@ -99,21 +105,25 @@ public class Visar3D : MonoBehaviour {
     void AddAcaoAoBtPlay()
     {
         BtPlay.onClick.AddListener(delegate {
-            if(btplay)
+            if (slider.value.Equals(sequence.Methods.Count))
             {
-                BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Pause";
-                InvokeRepeating("MudarSliderValue", 0f, 1f);
+                InvokeRepeating("ResetarSliderValue", 0f, .01f);
             }
             else
             {
-                BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Play";
-                CancelInvoke();
+                if (btplay)
+                {
+                    BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Pause";
+                    btplay = false;
+                    InvokeRepeating("MudarSliderValue", 0f, 1f);
+                }
+                else
+                {
+                    BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Play";
+                    btplay = true;
+                    CancelInvoke();
+                }
             }
-
-            if(slider.value.Equals(sequence.Methods.Count))
-            {
-                InvokeRepeating("ResetarSliderValue", 0f, .01f);
-            }          
         });
     }
 
@@ -123,7 +133,6 @@ public class Visar3D : MonoBehaviour {
         {
             CancelInvoke();
             BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Replay";
-            btplay = false;  
         }
         else
         {
@@ -136,7 +145,8 @@ public class Visar3D : MonoBehaviour {
         if(slider.value.Equals(0))
         {
             CancelInvoke();
-            BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Play";
+            btplay = false;
+            BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Pause";
             InvokeRepeating("MudarSliderValue", 1f, 1f);
         }
         else
@@ -145,4 +155,20 @@ public class Visar3D : MonoBehaviour {
         }        
     }
     #endregion
+
+
+    void AddAcaoAoBtNext()
+    {
+        BtNext.onClick.AddListener(delegate {
+            slider.value++;
+        });
+    }
+
+    void AddAcaoAoBtPrevious()
+    {
+        BtPrevious.onClick.AddListener(delegate
+        {
+            slider.value--;
+        });
+    }
 }
