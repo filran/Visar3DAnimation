@@ -12,6 +12,7 @@ public class AnimateMethod : MonoBehaviour {
     private GameObject LifelineOrigin;
     private GameObject LifelineDestination;
     private GameObject Classe;
+    private LineRenderer Relationship;
 
     public Vector3 Origin;
     public Vector3 Destination;
@@ -51,6 +52,9 @@ public class AnimateMethod : MonoBehaviour {
 
                     //Animation Classe
                     Classe.GetComponent<AnimateClass>().Animar(this.Direction);
+
+                    //Animation Relationship
+                    Relationship.GetComponent<AnimateLine>().Animar(this.Direction);
                 }
             }
 
@@ -65,6 +69,9 @@ public class AnimateMethod : MonoBehaviour {
 
                     //Animation Classe
                     Classe.GetComponent<AnimateClass>().Animar(this.Direction);
+
+                    //Animation Relationship
+                    Relationship.GetComponent<AnimateLine>().Animar(this.Direction);
                 }
             }
             #endregion
@@ -78,13 +85,14 @@ public class AnimateMethod : MonoBehaviour {
     #endregion
 
     #region PUBLIC METHODS
-    public void Animar(string direction, GameObject lifelineOrigin, GameObject lifelineDestination, GameObject classe)
+    public void Animar(string direction, GameObject lifelineOrigin, GameObject lifelineDestination, GameObject classe, LineRenderer relationship)
     {
         this.Animate = true;
         this.Direction = direction;
         this.LifelineOrigin = lifelineOrigin;
         this.LifelineDestination = lifelineDestination;
         this.Classe = classe;
+        this.Relationship = relationship;
     }
     #endregion
 

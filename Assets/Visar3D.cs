@@ -209,6 +209,9 @@ public class Visar3D : MonoBehaviour {
                     LineRender.GetComponent<Renderer>().material = LineMaterial;
                     LineRender.gameObject.AddComponent<AnimateLine>();
 
+                    Material lineMat = LineRender.gameObject.GetComponent<Renderer>().material;
+                    lineMat.color = new Color(lineMat.color.r, lineMat.color.b, lineMat.color.b,0);
+
                     Dictionary<GameObject, GameObject> pair = new Dictionary<GameObject, GameObject>();
                     pair.Add(c.Value,l.Value);
                     LineRenderes.Add(LineRender, pair);

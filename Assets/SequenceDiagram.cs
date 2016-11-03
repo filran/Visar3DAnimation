@@ -142,6 +142,7 @@ public class SequenceDiagram : MonoBehaviour {
                     if (l.Value.Equals(pair.Value))
                     {
                         GameObject cGO = pair.Key;
+                        LineRenderer relationship = line.Key;
                         
                         foreach (Method m in l.Key.Methods)
                         {
@@ -156,7 +157,7 @@ public class SequenceDiagram : MonoBehaviour {
                                     if (m.IdTarget.Equals(ll.Key.Id))
                                     {
                                         mGO.SetActive(true);
-                                        mGO.GetComponent<AnimateMethod>().Animar(direction, l.Value, ll.Value, cGO);
+                                        mGO.GetComponent<AnimateMethod>().Animar(direction, l.Value, ll.Value, cGO, relationship);
                                     }
                                 }
                             }
