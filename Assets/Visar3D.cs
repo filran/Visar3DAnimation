@@ -33,8 +33,8 @@ public class Visar3D : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
-	}
+
+    }
 
     void AddSequenceDiagram()
     {
@@ -52,6 +52,8 @@ public class Visar3D : MonoBehaviour {
             if (DescobrirDirecaoDoSlider(slider.value).Equals("left"))
             {
                 sequence.AnimarMetodo(CurrentValueSlider , "left");
+                BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Play";
+                btplay = true;
             }
 
             if (DescobrirDirecaoDoSlider(slider.value).Equals("right"))
@@ -97,7 +99,6 @@ public class Visar3D : MonoBehaviour {
     void AddAcaoAoBtPlay()
     {
         BtPlay.onClick.AddListener(delegate {
-
             if(btplay)
             {
                 BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Pause";
@@ -109,7 +110,11 @@ public class Visar3D : MonoBehaviour {
                 CancelInvoke();
             }
 
-            btplay = !btplay;            
+            if(slider.value.Equals(sequence.Methods.Count))
+            {
+                print("Replay?");
+                InvokeRepeating("ResetarSliderValue", 0f, .01f);
+            }          
         });
     }
 
@@ -118,10 +123,29 @@ public class Visar3D : MonoBehaviour {
         if (slider.value.Equals(sequence.Methods.Count))
         {
             CancelInvoke();
+            BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Replay";
+            btplay = false;  
         }
-
-        slider.value++;
+        else
+        {
+            slider.value++;
+        }
     }
 
+    void ResetarSliderValue()
+    {
+        print("Resetando!");
+
+        if(slider.value.Equals(0))
+        {
+            CancelInvoke();
+            BtPlay.transform.FindChild("Text").GetComponent<Text>().text = "Play";
+            InvokeRepeating("MudarSliderValue", 1f, 1f);
+        }
+        else
+        {
+            slider.value--;
+        }        
+    }
     #endregion
 }

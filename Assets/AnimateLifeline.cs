@@ -71,6 +71,5 @@ public class AnimateLifeline : MonoBehaviour {
         this.Animate = true;
         this.Direction = direction;
     }
-
     #endregion
 }
