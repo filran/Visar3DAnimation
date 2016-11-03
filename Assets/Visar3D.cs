@@ -112,7 +112,6 @@ public class Visar3D : MonoBehaviour {
 
             if(slider.value.Equals(sequence.Methods.Count))
             {
-                print("Replay?");
                 InvokeRepeating("ResetarSliderValue", 0f, .01f);
             }          
         });
@@ -134,8 +133,6 @@ public class Visar3D : MonoBehaviour {
 
     void ResetarSliderValue()
     {
-        print("Resetando!");
-
         if(slider.value.Equals(0))
         {
             CancelInvoke();
