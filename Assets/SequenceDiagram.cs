@@ -131,6 +131,8 @@ public class SequenceDiagram : MonoBehaviour {
     //Na verdade, este método "AnimarMetodo" sere um gatilho para começar executar outras animações nos outros objetos, tais como classes e pacotes
     public void AnimarMetodo(float value , string direction)
     {
+        List<GameObject> ClassRelationships = new List<GameObject>(); //Relacionamento entre as classes de cada classe
+
         foreach(KeyValuePair<Lifeline , GameObject> l in Lifelines)
         {
             foreach (KeyValuePair<LineRenderer, Dictionary<GameObject, GameObject>> line in RelationshipClassesAndLifelines)
@@ -140,7 +142,7 @@ public class SequenceDiagram : MonoBehaviour {
                     if (l.Value.Equals(pair.Value))
                     {
                         GameObject cGO = pair.Key;
-
+                        
                         foreach (Method m in l.Key.Methods)
                         {
                             GameObject mGO = Methods[m];

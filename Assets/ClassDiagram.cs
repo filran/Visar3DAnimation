@@ -36,9 +36,9 @@ public class ClassDiagram : MonoBehaviour {
         GameObject c2GO = (GameObject)Instantiate(ClassGO, new Vector3(4, 3, 2), Quaternion.identity);
         GameObject c3GO = (GameObject)Instantiate(ClassGO, new Vector3(3, 0, 2), Quaternion.identity);
 
-        c1GO.AddComponent<AnimateLifeline>();
-        c2GO.AddComponent<AnimateLifeline>();
-        c3GO.AddComponent<AnimateLifeline>();
+        c1GO.AddComponent<AnimateClass>();
+        c2GO.AddComponent<AnimateClass>();
+        c3GO.AddComponent<AnimateClass>();
 
         Classes.Add(c1, c1GO);
         Classes.Add(c2, c2GO);
@@ -65,7 +65,11 @@ public class ClassDiagram : MonoBehaviour {
                         lineRender.SetWidth(.1f, .1f);
                         lineRender.SetPosition(0, c.Value.transform.position);
                         lineRender.SetPosition(1, cc.Value.transform.position);
+
+                        lineRender.gameObject.AddComponent<AnimateLine>();
                         lineRender.gameObject.GetComponent<Renderer>().material = LineMaterial;
+
+                        c.Value.GetComponent<AnimateClass>().Relationships.Add(lineGO);
 
                         Dictionary<GameObject, GameObject> pair = new Dictionary<GameObject, GameObject>();
                         pair.Add(c.Value,cc.Value);
