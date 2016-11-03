@@ -7,7 +7,7 @@
 // # OK     Colocar os botões Avançar e Voltar
 
 //Diagrama de Classes
-// # Setar o Aplha das Classes, Relacionamento ente as Classes e Relacionamento entre Classes e Lifelines
+// # OK     Setar o Aplha das Classes, Relacionamento ente as Classes e Relacionamento entre Classes e Lifelines
 
 using UnityEngine;
 using UnityEngine.UI;
