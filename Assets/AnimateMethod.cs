@@ -47,6 +47,8 @@ public class AnimateMethod : MonoBehaviour {
                     
                     LifelineOrigin.GetComponent<AnimateLifeline>().Animar(this.Direction);
                     LifelineDestination.GetComponent<AnimateLifeline>().Animar(this.Direction);
+
+                    Classe.GetComponent<AnimateLifeline>().Animar(this.Direction);
                 }
             }
 
@@ -57,6 +59,8 @@ public class AnimateMethod : MonoBehaviour {
                     Counter -= .1f / LineDrawSpeed;
 
                     LifelineDestination.GetComponent<AnimateLifeline>().Animar(this.Direction);
+
+                    Classe.GetComponent<AnimateLifeline>().Animar(this.Direction);
                 }
             }
             #endregion

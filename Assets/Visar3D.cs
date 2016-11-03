@@ -6,6 +6,9 @@
 // # OK     Botão Animação Automática;
 // # OK     Colocar os botões Avançar e Voltar
 
+//Diagrama de Classes
+// # Setar o Aplha das Classes, Relacionamento ente as Classes e Relacionamento entre Classes e Lifelines
+
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -16,6 +19,7 @@ public class Visar3D : MonoBehaviour {
     public GameObject LifelineGO;
     public GameObject ClassGO;
     public Material LineMaterial;
+    public Material RelationshipMaterial;
     public Slider slider;
     public Button BtPlay;
     public Button BtNext;
@@ -61,8 +65,7 @@ public class Visar3D : MonoBehaviour {
     void AddClassDiagram()
     {
         classdiagram = this.gameObject.AddComponent<ClassDiagram>();
-        classdiagram.ClassGO = ClassGO;
-        classdiagram.renderClassDiagram();
+        classdiagram.renderClassDiagram(ClassGO, RelationshipMaterial);
     }
 
     #region Acoes para o Slider
@@ -117,7 +120,6 @@ public class Visar3D : MonoBehaviour {
     #endregion
 
     #region Acoes para o Botão Play
-
     void AddAcaoAoBtPlay()
     {
         BtPlay.onClick.AddListener(delegate {
