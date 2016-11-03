@@ -4,29 +4,38 @@
 // # OK     Animar as mensagens de acordo com o Slider
 // # OK     Mostrar e ocultar Lifelines de acordo com a exibição das mensagens
 // # OK     Botão Animação Automática;
-// # Colocar os botões Avançar e Voltar
-
-
+// # OK     Colocar os botões Avançar e Voltar
 
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Visar3D : MonoBehaviour {
 
     public GameObject LifelineGO;
+    public GameObject ClassGO;
+    public Material LineMaterial;
     public Slider slider;
     public Button BtPlay;
     public Button BtNext;
     public Button BtPrevious;
 
     private SequenceDiagram sequence;
+    private ClassDiagram classdiagram;
     private float CurrentValueSlider = 0;
     private bool btplay = true;
 
+    //Relacionamento entre                        classes e lifelines
+    private Dictionary<LineRenderer, Dictionary<GameObject, GameObject>> LineRenderes;
+
 	// Use this for initialization
 	void Start () {
+        LineRenderes = new Dictionary<LineRenderer, Dictionary<GameObject, GameObject>>();
+
         AddSequenceDiagram();
+        AddClassDiagram();
+        CriarRelacionamentoEntreClassesELifelines();
 
         AddAcaoAoSlider();
         SetarValorMaximoDoSlider();
@@ -47,6 +56,13 @@ public class Visar3D : MonoBehaviour {
         sequence = this.gameObject.AddComponent<SequenceDiagram>();
         sequence.LifelineGO = LifelineGO;
         sequence.renderSequenceDiagram();
+    }
+
+    void AddClassDiagram()
+    {
+        classdiagram = this.gameObject.AddComponent<ClassDiagram>();
+        classdiagram.ClassGO = ClassGO;
+        classdiagram.renderClassDiagram();
     }
 
     #region Acoes para o Slider
@@ -170,5 +186,34 @@ public class Visar3D : MonoBehaviour {
         {
             slider.value--;
         });
+    }
+
+    void CriarRelacionamentoEntreClassesELifelines()
+    {
+        foreach(KeyValuePair<Lifeline,GameObject> l in sequence.Lifelines)
+        {
+            foreach (KeyValuePair<Class, GameObject> c in classdiagram.Classes)
+            {
+                if(l.Key.Name.Equals(c.Key.Name))
+                {
+                    GameObject LineGO = new GameObject("line");
+                    LineGO.transform.parent = l.Value.transform;
+                    
+                    LineRenderer LineRender = LineGO.AddComponent<LineRenderer>();
+                    LineRender.SetWidth(.1f,.1f);
+                    LineRender.SetPosition(0, l.Value.transform.position);
+                    LineRender.SetPosition(1, c.Value.transform.position);
+
+                    LineRender.GetComponent<Renderer>().material = LineMaterial;
+                    LineRender.gameObject.AddComponent<AnimateLine>();
+
+                    Dictionary<GameObject, GameObject> pair = new Dictionary<GameObject, GameObject>();
+                    pair.Add(c.Value,l.Value);
+                    LineRenderes.Add(LineRender, pair);
+                }
+            }
+        }
+
+        sequence.RelationshipClassesAndLifelines = LineRenderes;
     }
 }

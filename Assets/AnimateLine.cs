@@ -1,7 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿//Esta classe tem responsabilidade de aplicar os efeitos de animação na linha que ligam as lifelines, classes e pacotes.
 
-public class AnimateLifeline : MonoBehaviour {
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class AnimateLine : MonoBehaviour {
 
     private float Lerp = 0;
     private Color AlpaOne;
@@ -12,18 +15,20 @@ public class AnimateLifeline : MonoBehaviour {
 
     public float Speed = 2f;
     public Renderer Rend;
-    
 
 
-	// Use this for initialization
-	void Start () {
-        Rend = this.transform.FindChild("Cube").GetComponent<Renderer>();
+
+    // Use this for initialization
+    void Start()
+    {
+        Rend = this.GetComponent<Renderer>();
         AlpaOne = new Color(Rend.material.color.r, Rend.material.color.g, Rend.material.color.b, 1);
         AlpZero = new Color(Rend.material.color.r, Rend.material.color.g, Rend.material.color.b, 0);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         ExectuarAnimacao();
     }
 
@@ -37,7 +42,7 @@ public class AnimateLifeline : MonoBehaviour {
 
             if (Direction.Equals("right"))
             {
-                Rend.material.color = Color.Lerp(new Color(Rend.material.color.r, Rend.material.color.g, Rend.material.color.b, Rend.material.color.a), AlpaOne, Lerp);            
+                Rend.material.color = Color.Lerp(new Color(Rend.material.color.r, Rend.material.color.g, Rend.material.color.b, Rend.material.color.a), AlpaOne, Lerp);
 
                 if (Rend.material.color.a.Equals(1))
                 {
@@ -61,6 +66,7 @@ public class AnimateLifeline : MonoBehaviour {
         }
     }
 
+
     #endregion
 
     #region PUBLIC METHODS
@@ -70,6 +76,6 @@ public class AnimateLifeline : MonoBehaviour {
         this.Animate = true;
         this.Direction = direction;
     }
-    
+
     #endregion
 }

@@ -11,6 +11,7 @@ public class AnimateMethod : MonoBehaviour {
     private float LineDrawSpeed = 2f;
     private GameObject LifelineOrigin;
     private GameObject LifelineDestination;
+    private GameObject Classe;
 
     public Vector3 Origin;
     public Vector3 Destination;
@@ -64,19 +65,18 @@ public class AnimateMethod : MonoBehaviour {
             float x = Mathf.Lerp(0, Dist, Counter);
             Vector3 pointAlonfLine = x * Vector3.Normalize(Destination - Origin) + Origin;
             Line.SetPosition(1, pointAlonfLine);
-
-           
         }
     }
     #endregion
 
     #region PUBLIC METHODS
-    public void Animar(string direction, GameObject lifelineOrigin, GameObject lifelineDestination)
+    public void Animar(string direction, GameObject lifelineOrigin, GameObject lifelineDestination, GameObject classe)
     {
         this.Animate = true;
         this.Direction = direction;
         this.LifelineOrigin = lifelineOrigin;
         this.LifelineDestination = lifelineDestination;
+        this.Classe = classe;
     }
     #endregion
 

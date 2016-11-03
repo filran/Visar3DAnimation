@@ -9,6 +9,9 @@ public class SequenceDiagram : MonoBehaviour {
     public Dictionary<Lifeline, GameObject> Lifelines = new Dictionary<Lifeline, GameObject>();
     public Dictionary<Method, GameObject> Methods = new Dictionary<Method, GameObject>();
 
+    //Relacionamento entre                       classes e lifelines
+    public Dictionary<LineRenderer, Dictionary<GameObject, GameObject>> RelationshipClassesAndLifelines { get; set; }
+
     private GameObject PrimeiraLifeline;
 
 	// Use this for initialization
@@ -96,7 +99,6 @@ public class SequenceDiagram : MonoBehaviour {
             this.PrimeiraLifeline = lifeline;
         }
     }
-
     #endregion
 
     #region PUBLIC METHODS
@@ -126,25 +128,36 @@ public class SequenceDiagram : MonoBehaviour {
         renderMethods();
     }
     
+    //Na verdade, este método "AnimarMetodo" sere um gatilho para começar executar outras animações nos outros objetos, tais como classes e pacotes
     public void AnimarMetodo(float value , string direction)
     {
         foreach(KeyValuePair<Lifeline , GameObject> l in Lifelines)
         {
-            foreach(Method m in l.Key.Methods)
+            foreach (KeyValuePair<LineRenderer, Dictionary<GameObject, GameObject>> line in RelationshipClassesAndLifelines)
             {
-                GameObject mGO = Methods[m];
-
-                if (m.Seqno.Equals((int)value))
+                foreach (KeyValuePair<GameObject, GameObject> pair in line.Value)
                 {
-                    AcharPrimeiraLifeline(m.Seqno, l.Value);
-
-                    foreach (KeyValuePair<Lifeline, GameObject> ll in Lifelines)
+                    if (l.Value.Equals(pair.Value))
                     {
-                        if(m.IdTarget.Equals(ll.Key.Id))
+                        GameObject cGO = pair.Key;
+
+                        foreach (Method m in l.Key.Methods)
                         {
-                            //Animar Método
-                            mGO.SetActive(true);
-                            mGO.GetComponent<AnimateMethod>().Animar(direction, l.Value, ll.Value);
+                            GameObject mGO = Methods[m];
+
+                            if (m.Seqno.Equals((int)value))
+                            {
+                                AcharPrimeiraLifeline(m.Seqno, l.Value);
+
+                                foreach (KeyValuePair<Lifeline, GameObject> ll in Lifelines)
+                                {
+                                    if (m.IdTarget.Equals(ll.Key.Id))
+                                    {
+                                        mGO.SetActive(true);
+                                        mGO.GetComponent<AnimateMethod>().Animar(direction, l.Value, ll.Value, cGO);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
